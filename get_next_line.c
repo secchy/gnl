@@ -15,23 +15,32 @@
 
 char    *get_next_line(int fd)
 {
-	char	*line;
-	char	*temp;
-	char	*ret;
-	int		len;
-	int		ret;
+	char		*line;
+	char		*ret;
+	static char	*temp;
+	int			len;
+	size_t		result;
 	
+	if (!fd)
+		return (NULL);
 	line = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
 	len = 0;
-	ret = read(fd, line, BUFFER_SIZE);
-	if (ret == -1 || ret == 0)
+	result = read(fd, line, BUFFER_SIZE);
+	ret = line;
+	if (result == -1 || result == 0)
 		return (NULL);
-	while (line[len] != '\n' && line[len] != '\0)
+	while (line[len] != '\n' && line[len] != '\0')
+	{
 		len++;
+		if (len == BUFFER_SIZE)
+			ft_strjoin(ret, line);
+	}
 	if (line[len] == '\n')
 	{
-		ret = ft_strsub(line, 0, len;
+		ret = ft_substr(line, 0, len);
+		if (ret)
+			return(ret);
 	}
+	else if (line[len] == '\0')
+		return (ft_strdup(line));
 }	
-//return (*line) if correct behavior    
-//return (NULL); if EOF or error

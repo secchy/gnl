@@ -39,6 +39,7 @@ The buffer size value will be modified by your peer-evaluators and the Moulinett
 • We also consider that get_next_line() has an undefined behavior when reading a binary file. However, you can implement a logical way to handle this behavior if you want to.
 
 Forbidden
+
 • You are not allowed to use your libft in this project.
 • lseek() is forbidden.
 • Global variables are forbidden.

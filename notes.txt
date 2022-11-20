@@ -1,0 +1,3 @@
+entä jos buff size on 0?
+miten looppaan että static line kasvaa jos ei kohtaa newline tai null tai eof
+miten saan surplus static linesta?
