@@ -1,3 +1,5 @@
 entä jos buff size on 0?
 miten looppaan että static line kasvaa jos ei kohtaa newline tai null tai eof
+	: strjoin bby
 miten saan surplus static linesta?
+	: prev bby

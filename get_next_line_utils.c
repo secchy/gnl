@@ -24,22 +24,6 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strrchr(const char *s, int c)
-{
-	char	*str;
-	int		i;
-
-	str = (char *)s;
-	i = ft_strlen(s);
-	while (i >= 0)
-	{
-		if (str[i] == (char)c)
-			return (&(str[i]));
-		i--;
-	}
-	return (0);
-}
-
 char	*ft_strdup(const char *s)
 {
 	int		i;

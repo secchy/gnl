@@ -16,7 +16,7 @@
 char    *get_next_line(int fd)
 {
 	char		*line;
-	char		*ret;
+	static char	*prev;
 	static char	*temp;
 	int			len;
 	size_t		result;
@@ -24,23 +24,37 @@ char    *get_next_line(int fd)
 	if (!fd)
 		return (NULL);
 	line = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
-	len = 0;
 	result = read(fd, line, BUFFER_SIZE);
-	ret = line;
-	if (result == -1 || result == 0)
+	if (result < 1)
+	{
+		free(line);
 		return (NULL);
-	while (line[len] != '\n' && line[len] != '\0')
+	}
+	if (!prev)
+		prev = "";
+	temp = ft_strjoin(prev, line);
+	len = 0;
+	while (temp[len] != '\n' && temp[len] != '\0')
 	{
 		len++;
-		if (len == BUFFER_SIZE)
-			ft_strjoin(ret, line);
+		if ((len % BUFFER_SIZE) == 0 && temp[len] != '\n' && temp[len] != '\0')
+		{
+			read(fd, line, BUFFER_SIZE);
+//check read result again?
+			temp = ft_strjoin(temp, line);
+		}
 	}
-	if (line[len] == '\n')
+	if (temp[len] == '\n')
 	{
-		ret = ft_substr(line, 0, len);
-		if (ret)
-			return(ret);
+		prev = ft_substr(temp, len, ft_strlen(temp) - len);
+		return(ft_substr(temp, 0, len));
 	}
-	else if (line[len] == '\0')
-		return (ft_strdup(line));
-}	
+	else if (temp[len] == '\0')
+	{
+		free(prev);
+		free(line);
+		return (temp);
+	}
+	else
+		return(NULL);
+}
