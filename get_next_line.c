@@ -6,12 +6,13 @@
 /*   By: jheloaho <jheloaho@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:51:03 by jheloaho          #+#    #+#             */
-/*   Updated: 2022/11/28 17:50:22 by jheloaho         ###   ########.fr       */
+/*   Updated: 2022/11/28 19:30:07 by jheloaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <fcntl.h>
+#include <unistd.h>
 
 char    *get_next_line(int fd)
 {
@@ -34,12 +35,11 @@ char    *get_next_line(int fd)
 	temp = ft_strjoin(prev, line);
 	while (result != -1)
 	{
-		temp = ft_strjoin(temp, line);
 		while (result-- > 0)
 		{
-			if (temp[len] == '\n' || temp[len] == '\0')
+			if (temp[len] == '\n')
 			{
-				prev = ft_substr(temp, len + 1, ft_strlen(temp) - len);
+				prev = ft_substr(temp, len + 1, ft_strlen(temp) - len - 1);
 				line = ft_substr(temp, 0, len);
 				return (line);
 			}
@@ -47,10 +47,23 @@ char    *get_next_line(int fd)
 		}
 		result = read(fd, line, BUFFER_SIZE);
 		line[result] = '\0';
+		temp = ft_strjoin(temp, line);
 		if (result == 0)
 		{
 			if (prev[result] != '\0')
+			{
 				temp = prev;
+				len = 0;
+				while (temp[len] != '\0')
+				{
+					if (temp[len] == '\n')
+					{
+						line = ft_substr(temp, 0, len);
+						return (line);
+					}
+					len++;
+				}
+			}
 			else
 			{
 				if (*prev)
