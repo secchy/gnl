@@ -3,3 +3,6 @@ miten looppaan että static line kasvaa jos ei kohtaa newline tai null tai eof
 	: strjoin bby
 miten saan surplus static linesta?
 	: prev bby
+
+gcc -Wall -Wextra -Werror get_next_line.c main.c get_next_line_utils.c -fsanitize=address -g3 -D BUFFE
+R_SIZE=2
