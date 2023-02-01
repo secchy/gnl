@@ -6,7 +6,7 @@
 /*   By: jheloaho <jheloaho@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 11:33:39 by jheloaho          #+#    #+#             */
-/*   Updated: 2022/11/28 13:21:16 by jheloaho         ###   ########.fr       */
+/*   Updated: 2023/02/01 07:04:11 by jheloaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,3 +99,20 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (new);
 }
 
+char	*ft_strchr(const char *s, int c)
+{
+	size_t	i;
+	size_t	len;
+	char	*str;
+
+	i = 0;
+	len = ft_strlen(s);
+	str = (char *)s;
+	while (i <= len)
+	{
+		if (str[i] == (char)c)
+			return (&(str[i]));
+		i++;
+	}
+	return (0);
+}

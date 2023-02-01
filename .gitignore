@@ -2,3 +2,5 @@ test
 main.c
 a.out
 notes
+test.dSYM/
+dnlTester/
