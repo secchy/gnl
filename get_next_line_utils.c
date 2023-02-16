@@ -6,7 +6,7 @@
 /*   By: jheloaho <jheloaho@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 11:33:39 by jheloaho          #+#    #+#             */
-/*   Updated: 2023/02/01 07:04:11 by jheloaho         ###   ########.fr       */
+/*   Updated: 2023/02/16 03:18:42 by jheloaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,52 +24,26 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strdup(const char *s)
+char	*ft_strchr(const char *s, int c)
 {
-	int		i;
-	char	*dupe;
-
-	i = ft_strlen(s);
-	dupe = (char *) malloc((i + 1) * sizeof(char));
-	if (!dupe)
-		return (0);
-	i = 0;
-	while (s[i] != '\0')
-	{
-		dupe[i] = s[i];
-		i++;
-	}
-	dupe[i] = '\0';
-	return (dupe);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*sub;
 	size_t	i;
+	size_t	len;
+	char	*str;
 
 	i = 0;
+	len = 0;
 	if (!s)
 		return (NULL);
-	if (start > ft_strlen(s))
-		return (ft_strdup(""));
-	if (len > (ft_strlen(s)))
-		len = ft_strlen(s);
-	sub = (char *) malloc((len + 1) * sizeof(char));
-	if (sub == NULL)
-		return (NULL);
-	while (i < len && s[start] != '\0')
-	{
-		sub[i] = s[start];
-		start++;
-		i++;
-	}
+	while (s[len])
+		len++;
+	str = (char *)s;
 	while (i <= len)
 	{
-		sub[i] = '\0';
+		if (str[i] == (char)c)
+			return (&(str[i]));
 		i++;
 	}
-	return (sub);
+	return (0);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -99,20 +73,34 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (new);
 }
 
-char	*ft_strchr(const char *s, int c)
+void	*ft_memset(void *dest, int c, size_t len)
 {
-	size_t	i;
-	size_t	len;
-	char	*str;
+	unsigned char	*ptr;
 
-	i = 0;
-	len = ft_strlen(s);
-	str = (char *)s;
-	while (i <= len)
+	ptr = dest;
+	while (len-- > 0)
 	{
-		if (str[i] == (char)c)
-			return (&(str[i]));
-		i++;
+		*ptr++ = (unsigned char) c;
 	}
-	return (0);
+	return (dest);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*ptr;
+	size_t	bytes;
+
+	if (count == 0 || size == 0)
+	{
+		count = 1;
+		size = 1;
+	}
+	bytes = count * size;
+	if (bytes / size != count)
+		return (NULL);
+	ptr = (void *) malloc(count * size);
+	if (!ptr)
+		return (NULL);
+	ft_memset(ptr, '\0', count * size);
+	return (ptr);
 }
