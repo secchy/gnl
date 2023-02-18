@@ -6,7 +6,7 @@
 /*   By: jheloaho <jheloaho@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:51:03 by jheloaho          #+#    #+#             */
-/*   Updated: 2023/02/16 03:39:31 by jheloaho         ###   ########.fr       */
+/*   Updated: 2023/02/18 21:06:33 by jheloaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,22 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+char	*ft_join_and_free(char *stash, char *line)
+{
+	char	*temp;
+
+	temp = ft_strjoin(stash, line);
+	free(stash);
+	return (temp);
+}
+
 char	*ft_read_file(int fd, char *stash)
 {
 	char	*line;
-	ssize_t bytes;
+	ssize_t	bytes;
 
 	if (!stash)
-		stash = "";
+		stash = ft_calloc(1, 1);
 	if (ft_strchr(stash, '\n'))
 		return (stash);
 	line = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
@@ -34,7 +43,7 @@ char	*ft_read_file(int fd, char *stash)
 			return (NULL);
 		}
 		line[bytes] = '\0';
-		stash = ft_strjoin(stash, line);
+		stash = ft_join_and_free(stash, line);
 	}
 	free (line);
 	return (stash);
@@ -80,17 +89,17 @@ char	*ft_stash(char *stash)
 	i++;
 	j = 0;
 	while (stash[i])
-	str[j++] = stash[i++];
+		str[j++] = stash[i++];
 	free(stash);
 	return (str);
 }
 
-char    *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
 	char		*line;
 	static char	*stash;
 
-	if (!fd || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
+	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
 		return (NULL);
 	stash = ft_read_file(fd, stash);
 	if (!stash)
