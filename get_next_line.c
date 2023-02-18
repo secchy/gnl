@@ -6,7 +6,7 @@
 /*   By: jheloaho <jheloaho@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:51:03 by jheloaho          #+#    #+#             */
-/*   Updated: 2023/02/18 21:06:33 by jheloaho         ###   ########.fr       */
+/*   Updated: 2023/02/18 21:47:38 by jheloaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*stash;
 
-	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
 		return (NULL);
 	stash = ft_read_file(fd, stash);
 	if (!stash)
